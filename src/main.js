@@ -7,6 +7,7 @@ import store from "@/store/index";
 Vue.config.productionTip = false
 
 import axios from "@/utils/request";
+Vue.prototype.$axios=axios;
 //引入vant 组件
 import Vant from 'vant';
 import 'vant/lib/index.css';

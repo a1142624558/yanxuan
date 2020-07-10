@@ -11,11 +11,11 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
-      path: '/',
+      path: '/hello',
       name: 'HelloWorld',
       component: HelloWorld
     },
     //扩展运算符
-    ...shop
+    ...shop 
   ]
 })
