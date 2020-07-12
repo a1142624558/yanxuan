@@ -5,7 +5,7 @@ import App from './App'
 import router from './router'
 import store from "@/store/index";
 Vue.config.productionTip = false
-
+import "@/assets/style/reset.css";
 import axios from "@/utils/request";
 Vue.prototype.$axios=axios;
 //引入vant 组件
