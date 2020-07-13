@@ -1,3 +1,4 @@
+
 import Register from "@/views/login/register";
 import Login from "@/views/login/login";
 
@@ -13,6 +14,11 @@ import Search from '@/views/goods/search';
 
 //分类商品
 import CateGoods from '@/views/goods/cateGoods';
+
+//严选专栏
+import Special from "@/views/article/special";//页面列表
+import articleDetail from "@/views/article/detail";//文章详情
+
 
 // 定义一个变量
 const shop = [
@@ -100,6 +106,21 @@ const shop = [
         component: Search,
         meta: {
             title: "严选商城-商品搜索"
+        }
+    }
+    ,{
+        path: "/article/special",
+        name: "article_special",
+        component: Special,
+        meta: {
+            title: "严选商城-严选专栏"
+        }
+    },{
+        path: "/article/detail/:id",
+        name: "article",
+        component: articleDetail,
+        meta: {
+            title: "严选商城-文章详情"
         }
     }
 ];
