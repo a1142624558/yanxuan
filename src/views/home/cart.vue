@@ -11,7 +11,7 @@
       </van-card>
     </div>
 
-    <van-submit-bar :price="totalAmounts" button-text="提交订单">
+    <van-submit-bar :price="totalAmounts" button-text="提交订单" @submit="submitOrder">
       <van-checkbox v-model="checked">全选</van-checkbox>
     </van-submit-bar>
   </div>
@@ -22,6 +22,7 @@ export default {
   name: "",
   mounted() {
     this.cartList = this.$store.state.cartList;
+    console.log(this.checked);
   },
   data() {
     return {
@@ -48,7 +49,6 @@ export default {
         let arr = value.filter(item=>{
           return item.checked == true;
         });
-        
         if(value.length == arr.length){
           this.checked = true;
         }else{
@@ -61,6 +61,19 @@ export default {
   methods: {
     goBack(){
       this.$router.go(-1);
+    },
+    //提交订单的数据
+    submitOrder(){
+      this.$toast.loading({
+        duration: 3000, // 持续展示 toast
+        message:"商品准备中",
+        overlay: true,
+      });
+      //获取订单的数据信息
+      this.$store.commit("setOrderList");
+      setTimeout(()=>{
+        this.$router.push("/order/confirm");
+      },3000)
     }
   }
 };
