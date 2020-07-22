@@ -4,6 +4,7 @@ import HelloWorld from '@/components/HelloWorld'
 
 //引入自定义的路由文件
 import shop from "./shop";
+import shop1 from "./shop1";
 
 //study相关信息
 import lazyload from "@/views/study/lazyload";
@@ -34,6 +35,7 @@ export default new Router({
       }
     },
     //扩展运算符
-    ...shop
+    ...shop,
+    ...shop1,
   ]
 })

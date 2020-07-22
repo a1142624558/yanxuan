@@ -1,24 +1,10 @@
 <template>
   <div class="box">
-    <!-- 轮播图区域 -->
-    <van-swipe :autoplay="3000">
-      <van-swipe-item v-for="(item,index) in banners" :key="index">
-        <img :src="item.pic" />
-      </van-swipe-item>
-    </van-swipe>
-
-    <!-- 选项卡操作 -->
-    <div class="tab-item">
-      <van-tabs v-model="active">
-        <van-tab title="商品详情">
-          <p v-html="content"></p>
-        </van-tab>
-        <van-tab title="商品评价">
-          <p>商品评价</p>
-        </van-tab>
-      </van-tabs>
-    </div>
-
+    <GoodsDetail
+      :banners = "banners"
+      :content = "content"
+    >
+    </GoodsDetail>
     <!-- 底部商品导航 -->
     <van-goods-action>
       <van-goods-action-icon icon="chat-o" text="客服" />
@@ -37,14 +23,12 @@
       @sku-selected="selectedSku"
     />
 
-    <!-- 返回按钮 -->
-    <div class="arrow" @click="goBack">
-      <van-icon name="arrow-left" size="30" />
-    </div>
+   
   </div>
 </template>
 
 <script>
+import GoodsDetail from "@/components/common/goodsDetail"
 export default {
   name: "",
   mounted() {
@@ -55,11 +39,12 @@ export default {
   },
   data() {
     return {
-      active: 0,
+     
       gId: 0, //商品的ID
       banners: [], //商品轮播图
       content: null,
       goodsInfo: [],
+
       //sku的商品数据
       skuShow: false,
       sku: {
@@ -99,10 +84,14 @@ export default {
       nums: 1,
       propertyIds: "",//选中商品的sku的数据
       //sku的商品数据
+
     
     };
   },
   computed: {},
+  components:{
+    GoodsDetail
+  },
   methods: {
     //获取商品详情信息
     getGoodsInfo() {
@@ -128,6 +117,7 @@ export default {
       if (property == undefined) {
         return false;
       }
+
       let tree = []; //商品sku的规格信息
       let list = []; //商品sku的组装信息
       //遍历属性
@@ -137,18 +127,22 @@ export default {
         object.k = element.name;
         object.k_s = `c_${element.id}`;
         object.v = element.childsCurGoods;
+
         tree.push(object); //处理对象的方式
       });
+
       console.log(tree);
       //组装sku组合的数据，push到list中
       tree.forEach(item => {
         item.v.forEach(element => {
           console.log(element);
+
           let obj = new Object();
           obj.id = item.k_s.split("_")[1]; //截取数据，提取sku的ID信息
           obj[item.k_s] = element.id;
           obj.price = 1000;
           obj.stock_num = 120;
+
           list.push(obj);
         });
       });
@@ -159,6 +153,7 @@ export default {
     //切换规格的时候触发
     selectedSku(data){
       console.log(data);
+
       this.propertyIds = `${data.skuValue.propertyId}:${data.skuValue.id}`;
     },
     //加入购物车
@@ -168,15 +163,19 @@ export default {
       if (data == null) {
         this.$toast.fail("请先登录");
         this.$router.push("/shop/login");
+
         return false;
       }
+
       //用户已经登录的信息,添加购物车信息，
       let cartList = this.$store.state.cartList; //购物车的列表数据
+
       //找出
       let index = cartList.findIndex(item => {
         //判断当前商品的ID是否重复
         return item.goods_id == this.gId;
       });
+
       console.log(index);
       // return false;
       if (index == -1) {
@@ -193,6 +192,7 @@ export default {
       }else{
         cartList[index].nums += this.nums;//数量的自增的操作
       }
+
       this.skuShow = false; //控制底部弹框的隐藏
       this.$toast.success("添加购物车成功");
       this.$store.commit("addCart", cartList);
@@ -201,9 +201,7 @@ export default {
     gotoCart(){
       this.$router.push("/cart");
     },
-    goBack() {
-      this.$router.go(-1);
-    }
+   
   }
 };
 </script>
@@ -213,27 +211,6 @@ export default {
   width: 100%;
   background: #f0f0f0;
   padding-bottom: 0.88rem;
-  .tab-item {
-    width: 100%;
-    background: #fff;
-    margin-top: 0.2rem;
-    p {
-      padding: 0.15rem;
-      width: 100% !important;
-      box-sizing: border-box;
-      img {
-        width: 100% !important;
-      }
-    }
-  }
-  .arrow {
-    padding: 0.1rem;
-    box-sizing: border-box;
-    background: #f0f0f0;
-    border-radius: 50%;
-    position: fixed;
-    top: 0.5rem;
-    left: 0.3rem;
-  }
+  
 }
 </style>

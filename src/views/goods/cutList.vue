@@ -1,7 +1,7 @@
 <template>
   <div>
       <van-nav-bar title="砍价列表"  left-arrow @click-left="goHome"/>
-      <Cut :cutList="cutList"/>
+      <Cut :cutList="cutList" :resultList="resultList"/>
   </div>
 </template>
 
@@ -15,6 +15,7 @@ export default {
   data() {
     return {
         cutList:[],
+        resultList:[],
     };
   },
   components: {
@@ -25,7 +26,9 @@ export default {
       this.$axios({
         url: "https://api.it120.cc/small4/shop/goods/kanjia/list"
       }).then(res => {
+        console.log(res.data);
         this.cutList = res.data.goodsMap;
+        this.resultList = res.data.result;
       });
     },
     goHome(){

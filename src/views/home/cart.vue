@@ -11,7 +11,7 @@
       </van-card>
     </div>
 
-    <van-submit-bar :price="totalAmounts" button-text="提交订单" @submit="submitOrder">
+    <van-submit-bar style="bottom:1rem" :price="totalAmounts" button-text="提交订单" @submit="submitOrder">
       <van-checkbox v-model="checked">全选</van-checkbox>
     </van-submit-bar>
   </div>
@@ -38,6 +38,7 @@ export default {
           amounts += item.nums*item.price;
         }
       });
+
       return amounts*100;
     }
   },
@@ -46,9 +47,11 @@ export default {
       handler(value){
         this.$store.commit("addCart",value);
         this.$store.commit("countCarts");
+
         let arr = value.filter(item=>{
           return item.checked == true;
         });
+
         if(value.length == arr.length){
           this.checked = true;
         }else{

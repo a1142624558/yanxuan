@@ -1,7 +1,7 @@
 <template>
   <div>
     <!--砍价列表信息-->
-    <div class="item" v-for="(item,index) in cutList" :key="index">
+    <div class="item" v-for="(item,index) in cutList" :key="index" @click="gotoDetail(item.id)">
       <div class="item-left">
         <img :src="item.pic" />
       </div>
@@ -30,12 +30,22 @@
 <script>
 export default {
   name: "",
-  props: ['cutList'],
+  props: ['cutList',"resultList"],
   data() {
     return {};
   },
   computed: {},
-  methods: {}
+  methods: {
+    gotoDetail(id){
+      let kjid = 0;
+      this.resultList.forEach(item=>{
+        if(item.goodsId == id){
+          kjid = item.id;
+        }
+      })
+      this.$router.push('/goods/cut/'+id+'/'+kjid);
+    }
+  }
 };
 </script>
 
@@ -60,7 +70,6 @@ export default {
     width: 70%;
     padding-left: 0.2rem;
     box-sizing: border-box;
-    font-size: 0.3rem;
     p {
       line-height: 0.6rem;
       width: 100%;
